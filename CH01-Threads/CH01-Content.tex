@@ -38,32 +38,30 @@
 \end{block}
 \end{frame}
 
-\def\subsectitle{test}
-\subsection{\subsectitle}
 
-
+\def\sectitle{Différence entre Threads et Processus}
+\section{\sectitle}
 \begin{frame}{\sectitle}
-\begin{alertblock}{\subsectitle}
-\begin{itemize}
-\item test 
-\end{itemize}
-\end{alertblock}
+    \def\subsectitle{Points communs}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Permet d'obtenir plusieurs instructions s'exécutant en
+                parallèle.
+            \item 
+        \end{itemize}
+    \end{block}
 
-\begin{exampleblock}{test}
-\begin{itemize}
-\item test
-\end{itemize}
-
-\end{exampleblock}
-
-\begin{block}{test}
-\begin{itemize}
-\item test
-\end{itemize}
-
-\end{block}
-
+    \def\subsectitle{Différences}
+    \subsection{\subsectitle}
+    \begin{block}
+        \begin{itemize}
+            \item Les threads partages leurs mémoire
+            \item Les threads ne sont pas ordonnancés par le système
+        \end{itemize}
+    \end{block}
 \end{frame}
+
 
 
 \end{document}
