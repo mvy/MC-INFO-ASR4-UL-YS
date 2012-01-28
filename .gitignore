@@ -1,0 +1,19 @@
+# Auxiliary files
+*.aux
+*.toc
+*.log
+*.nav
+*.out
+*.snm
+*/*.cmake
+*.swp
+*~
+*.rule
+
+TD*
+TP*
+
+Makefile
+CMakeFiles
+CMakeCache.txt
+build/*.tex
