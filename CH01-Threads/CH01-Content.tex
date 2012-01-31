@@ -278,6 +278,41 @@
 \end{frame}
 
 
+\def\sectitle{Attributs}
+\subsection{\sectitle}
+%%Frame
+\begin{frame}[containsverbatim]{\sectitle}
+    %%Block
+    \def\subsectitle{Type}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item \verb+pthread_attr_t+
+        \end{itemize}
+    \end{block}
+    %%Block
+    \def\subsectitle{Ordonnancement}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item \verb+SCHED_FIFO+, FIFO, temps-réel
+            \item \verb+SCHED_RR+, round-robin
+            \item \verb+SCHED_OTHER+, ordinaire
+        \end{itemize}
+    \end{block}
+    %%Block
+    \def\subsectitle{Autres paramètres}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Taille de la pille
+            \item Taille de la zone de protection de la pile
+            \item Joinable and detached
+            \item Priorité
+        \end{itemize}
+    \end{block}
+\end{frame}
+
 \def\sectitle{Attention}
 \section{\sectitle}
 %%Frame
@@ -321,7 +356,7 @@
         \end{itemize}
     \end{block}
     %%Block
-    \def\subsectitle{Pourquoi deux méthode}
+    \def\subsectitle{Pourquoi deux méthodes}
     \subsection{\subsectitle}
     \begin{block}{\subsectitle}
         \begin{itemize}
