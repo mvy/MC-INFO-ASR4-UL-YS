@@ -1,0 +1,92 @@
+\title{Systèmes d'exploitation, 2ème année}
+\subtitle{Appel de procédures distantes}
+
+\author{Yves \textsc{Stadler}}
+\institute{Université de Lorraine - IUT de Metz}
+
+\date{\today}
+
+\begin{document}
+
+%%
+% Page de Titre
+%%
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+\def\sectitle{Agenda}
+\section{\sectitle}
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Plan du cours}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Qu'est-ce que les RPC
+            \item Usage
+            \item Implémenation en C
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+
+\def\sectitle{Principe des RPC}
+\section{\sectitle}
+% Frame
+\begin{frame}[containsverbatim]{\sectitle}
+    % Block
+    \def\subsectitle{Transparence}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item L'objectif des appels de procédures distantes:
+                \begin{itemize}
+                    \item Fournir un appel de fonction (\verb+func(a,b)+)
+                    \item S'exécuter à distance
+                    \item Renvoyer un résultat au programme appelant.
+                \end{itemize}
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Avantage}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Le programmeur ne se soucie pas de la gestion du réseau!
+                \verb+\o/+
+            \item On peut proposer une liste de service réseaux
+            \item Le protocol est assisté
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+
+\def\sectitle{Définir le protocol}
+\section{\sectitle}
+% Frame
+\begin{frame}[containsverbatim]{\sectitle}
+    % Block
+    \def\subsectitle{Langage RPC}
+    \subsection{\subsectitle}
+    \begin{exampleblock}{\subsectitle}
+        \begin{verbatim}
+  1 enum result_t {SUCESS, FAILURE};
+  2 
+  3 struct etudiant {
+  4     string name<>;
+  5     int age;
+  6 };
+  7 
+  8 program ETUDDB {
+  9     version ETUDDB_V1 {
+ 10         result_t ADD_ETUD(etudiant) = 1;
+ 11         result_t PRINT() = 2;
+ 12     } = 1;
+ 13 } = 0x2fffffff;
+        \end{verbatim}
+    \end{exampleblock}
+\end{frame}
+\end{document}
