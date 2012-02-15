@@ -1,0 +1,405 @@
+\title{Systèmes d'exploitation, 2ème année}
+\subtitle{Architecture d'un serveur web - CGI}
+
+\author{Yves \textsc{Stadler}}
+\institute{Université de Lorraine - IUT de Metz}
+
+\date{\today}
+
+\begin{document}
+
+%%
+% Page de Titre
+%%
+\begin{frame}
+\titlepage
+\end{frame}
+
+\def\sectitle{Agenda}
+\section{\sectitle}
+\def\subsectitle{Plan du cours}
+\subsection{\subsectitle}
+
+\begin{frame}{\sectitle}
+\begin{block}{\subsectitle}
+\begin{itemize}
+\item Système de gestion des fichiers
+\end{itemize}
+\end{block}
+\end{frame}
+
+\def\sectitle{Client - Serveur}
+\section{\sectitle}
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Modèle - Rappels}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Mode de communication
+            \item Le client envoi des requêtes
+            \item Le serveur répond aux requêtes
+            \item Communiquent conformément au modèle OSI.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% frame
+\begin{frame}{\sectitle}
+    % block
+    \def\subsectitle{Serveurs}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item mainframe
+            \item peer to peer
+            \item architecture n-tiers
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Clients}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Légers (ne fait que des appels et affiche)
+            \item Lourd (réception des données, travail conjoint)
+            \item Riches (Utilisation de réponse partielles)
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\def\sectitle{Serveur Web}
+\section{\sectitle}
+% frame
+\begin{frame}{\sectitle}
+    % block
+    \def\subsectitle{Objectif}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item fournir des informations ou un service
+        \end{itemize}
+    \end{block}
+    % block
+    \def\subsectitle{Acteurs}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item utilisateurs
+            \item gestionnaire de connexion
+            \item gestion des données (disque, SGBD)
+            \item exécutant (api, programme, module)
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\def\sectitle{Fonctionnement}
+\section{\sectitle}
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Usage}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Les API permettent d'écrire des modules qui s'exécutent sur le
+                serveur
+            \item Le serveur intercepte les requêtes HTTP et les transmet à
+                l'application.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Fonctionnement}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item En général une requête correspond à une instance du serveur.
+            \item Favorise la réutilisation des applications clients/serveurs
+                existantes
+            \item Cela nécessite quelques ajouts aux fonctions de bases du
+                serveur:
+                \begin{itemize}
+                    \item gestion des sessions
+                    \item gestion des droits
+                    \item gestion de la présentation
+                \end{itemize}
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Modules}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Modules d'interprétation
+            \item Standardisation du développement web
+            \item Facilité de réutilisation des fonctions communes.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+
+\def\sectitle{Common GateWay Interface}
+\section{\sectitle}
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Principe}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Description d'une passerelle entre le serveur et des
+                applications externes
+            \item Le serveur lance un programme au lieu d'aller chercher une
+                page
+            \item La sortie standard d'un script CGI est redirigée vers le
+                client.
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{En sortie}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Une réponse HTTP valide
+            \item Redirection, fichier, page HTML.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Entrées sorties}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Les entrées se trouvent dans la Query String. Celle-ci se
+                trouve dans les variables d'environnement que le serveur va
+                fixer au moment du lancement.
+            \item Si la requête est utilise la méthode POST, il n'y a pas de
+                Query String, il faut utiliser stdin.
+            \item La variable Content\_length contient la taille du message
+            \item Il est préférable d'utiliser le POST car pas de problème de
+                cache
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Attention}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Un script/programme CGI va être exécuté sur votre serveur
+            \item Attention à ce que l'on programme.
+            \item Valider les données d'entrées (tailles, contenu)
+            \item Vérifier que la requête provient bien de notre serveur
+            \item Éviter les appels aux commandes systèmes.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\def\sectitle{Apache - Configuration}
+\section{\sectitle}
+% Frame
+\begin{frame}[containsverbatim]{\sectitle}
+    % Block
+    \def\subsectitle{}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{verbatim}
+-rw-r--r-- 1 root root  7994 Jan  1  2011 apache2.conf
+drwxr-xr-x 2 root root  1024 Feb 13 01:01 conf.d
+-rw-r--r-- 1 root root  1169 Jan  1  2011 envvars
+-rw-r--r-- 1 root root     0 Aug 17  2010 httpd.conf
+-rw-r--r-- 1 root root 31063 Jan  1  2011 magic
+drwxr-xr-x 2 root root  9216 Feb 13 01:01 mods-available
+drwxr-xr-x 2 root root  1024 Apr 18  2011 mods-enabled
+-rw-r--r-- 1 root root   762 Feb 10 16:45 ports.conf
+drwxr-xr-x 2 root root  1024 Feb 13 01:01 sites-available
+drwxr-xr-x 2 root root  1024 Feb 10 17:00 sites-enabled
+        \end{verbatim}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}[containsverbatim]{\sectitle}
+    % Block
+    \def\subsectitle{/etc/apache2}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item \verb+xxx-available+ configuration des mods/sites
+            \item \verb+xxx-enabled+ liens vers le précédent
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Paramètrages du sith}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Défini la configuration d'un site (admin, mail, root)
+            \item Lie les URL aux dossiers locaux
+            \item Indique les droits pour ce site (Options utilisables, override
+                possible ou non, IP autorisées)
+            \item Décide de l'activation des CGI et leur dossier.
+            \item Défini le niveau de debug.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{VirtualHost}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Un virtual host est un serveur web hébergé
+            \item Il peut y en avoir plusieurs sur le même serveur (c'est
+                l'intérêt)
+            \item Il doit définir le nom du serveur (URL)
+            \item Le nom de l'administrateur (mail)
+            \item La racine où se trouver les fichiers
+            \item Éventuellement les fichiers de logs.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}[containsverbatim]{\sectitle}
+    % Block
+    \def\subsectitle{Directory}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item La balise directory permet d'appliquer des directives à un
+                répertoire particuliers
+            \item Activer les CGI
+            \item Activer le suivi des liens symboliques
+            \item Demande un password
+            \item Autoriser l'utilisation des .htaccess
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Exemple}
+    \subsection{\subsectitle}
+    \begin{exampleblock}{\subsectitle}
+        \begin{verbatim}
+<Directory "/home/mvy/git/serveur">
+        Options Indexes FollowSymLinks MultiViews +ExecCGI
+        AllowOverride None
+        Order allow,deny
+        allow from all
+</Directory>
+        \end{verbatim}
+    \end{exampleblock}
+\end{frame}
+
+\def\sectitle{CGI}
+\section{\sectitle}
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Alias}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Créer un alias entre une adresse URL et un dossier
+            \item Permet d'avoir des fichiers ailleurs que dans la DocumentRoot
+            \item Il faut aussi donner les droits ensuite
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{ScriptAlias}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Comme pour alias, mais permet de stocker des CGI
+            \item Pas besoin d'utiliser les handlers.
+            \item Appel du module mod\_cgi
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}[containsverbatim]{\sectitle}
+    % Block
+    \def\subsectitle{Divers}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Les handlers permettent de faire reconnaitre une extension en
+                tant que script à exécuter
+            \item Les scripts interprétés doivent contenir le nom de
+                l'interpréteur (\verb+#!/bin/bash+)
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Fast-CGI}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Le fast-cgi de mod\_fastcgi permet de faire du CGI avec
+                persistance
+            \item Attention à la concurrence.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\def\sectitle{CGI en programmation}
+\section{\sectitle}
+% Frame
+\begin{frame}[containsverbatim]{\sectitle}
+    % Block
+    \def\subsectitle{Sortie}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Il faut que le CGI comment par donner le type de réponse 
+            \item \verb+Content-type: text/html+ par exemple
+            \item Ensuite on peut écrire du HTML
+            \item Beaucoup de types sont possibles, du fichiers à l'audio.
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Entrée}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Les variables : récupérables avec \verb+getenv+
+            \item Attention URL encodé
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Bibliothèque}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \itemEn C : cgic
+            \item En Perl: CGI.pm, CGI::Lite
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\end{document}
