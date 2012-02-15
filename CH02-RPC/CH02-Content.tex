@@ -15,7 +15,6 @@
 \titlepage
 \end{frame}
 
-
 \def\sectitle{Agenda}
 \section{\sectitle}
 % Frame
@@ -25,13 +24,17 @@
     \subsection{\subsectitle}
     \begin{block}{\subsectitle}
         \begin{itemize}
-            \item Qu'est-ce que les RPC
-            \item Usage
-            \item Implémenation en C
+            \item Principe des RPC
+            \item Outils connus
+            \item Stratégies d'exécution
+            \item Problèmes
+            \item Sérialisation
+            \item Gestion des données
+            \item Historique
+            \item Implémentation
         \end{itemize}
     \end{block}
 \end{frame}
-
 
 \def\sectitle{Principe des RPC}
 \section{\sectitle}
@@ -58,97 +61,22 @@
             \item Le programmeur ne se soucie pas de la gestion du réseau!
                 \verb+\o/+
             \item On peut proposer une liste de service réseaux
-            \item Le protocol est assisté
+            \item Le protocole est assisté
         \end{itemize}
     \end{block}
 \end{frame}
 
-
-\def\sectitle{Définir le protocol}
-\section{\sectitle}
-% Frame
-\begin{frame}[containsverbatim]{\sectitle}
-    % Block
-    \def\subsectitle{Langage RPC}
-    \subsection{\subsectitle}
-    \begin{exampleblock}{\subsectitle}
-        \begin{verbatim}
-  1 enum result_t {SUCESS, FAILURE};
-  2 
-  3 struct etudiant {
-  4     string name<>;
-  5     int age;
-  6 };
-  7 
-  8 program ETUDDB {
-  9     version ETUDDB_V1 {
- 10         result_t ADD_ETUD(etudiant) = 1;
- 11         result_t PRINT() = 2;
- 12     } = 1;
- 13 } = 0x2fffffff;
-        \end{verbatim}
-    \end{exampleblock}
-\end{frame}
-
-
-\def\sectitle{Génération des données externes}
-\section{\sectitle}
-% Frame
-\begin{frame}[containsverbatim]{\sectitle}
-    % Block
-    \def\subsectitle{External Data Representation (XDR)}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item Un fichier \verb+nom_xdr.c+ contenant les types définis
-            \item Ne pas modifier, inclure le \verb+.o+
-            \item RFC 1831
-        \end{itemize}
-    \end{block}
-    % Block
-    \def\subsectitle{Server Stub}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item Contient la gestion des appels client et la liaison avec le
-                service
-            \item Appel des fonctions non implémentées
-            \item Ne pas modifier, inclure le \verb+.o+
-        \end{itemize}
-    \end{block}
-    % Block
-    \def\subsectitle{Client Stub}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item Contient les appels aux fonctions définies précédement
-            \item Elle appelles les fonction serveur
-            \item Ne pas modifier, inclure le \verb+.o+
-        \end{itemize}
-    \end{block}
-    % Block
-    \def\subsectitle{Header}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item Définis les fonctions
-            \item inclure le \verb+.h+
-        \end{itemize}
-    \end{block}
-\end{frame}
-
-
-\def\sectitle{Approches}
+\def\sectitle{Outils connus}
 \section{\sectitle}
 % Frame
 \begin{frame}{\sectitle}
     % Block
-    \def\subsectitle{Traditionnelle}
+    \def\subsectitle{Traditionnels}
     \subsection{\subsectitle}
     \begin{block}{\subsectitle}
         \begin{itemize}
             \item Sun ONC/RPC
-            \item OSF DCE
+            \item OSF DCE (Distributed Computing Environment)
             \item Procédures stockée des BdD
         \end{itemize}
     \end{block}
@@ -157,15 +85,13 @@
     \subsection{\subsectitle}
     \begin{block}{\subsectitle}
         \begin{itemize}
-            \item  CORBA
-            \item Java RMI 
-            \item DCOM
+            \item CORBA (Common Object Request Broker Architecture)
+            \item Java RMI (Remote Method Invocation)
+            \item DCOM (Distributed Common Object Model)
         \end{itemize}
     \end{block}
 \end{frame}
 
-\def\sectitle{}
-\section{\sectitle}
 % Frame
 \begin{frame}{\sectitle}
     % Block
@@ -173,19 +99,166 @@
     \subsection{\subsectitle}
     \begin{block}{\subsectitle}
         \begin{itemize}
-            \item Sun  J2EE EJB
+            \item Sun  J2EE EJB (Entreprise Java Beans)
             \item Corba Component Model
-            \item WS-SOAP
+            \item WS-SOAP (WebServices Simple Object Access Protocol)
         \end{itemize}
     \end{block}
 \end{frame}
 
-\def\sectitle{Problèmes de réalisation}
+\def\sectitle{Stratégie d'exécution}
 \section{\sectitle}
 % Frame
 \begin{frame}{\sectitle}
     % Block
-    \def\subsectitle{Paramètres}
+    \def\subsectitle{Stratégies}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Le code est déporté sur un serveur
+            \item Qui l'exécute?
+            \item Comment sont gérés les données?
+        \end{itemize}
+    \end{block}
+\end{frame}
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Migration / Rapatriement}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item On amène le code sur la machine locale
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Critiques}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Efficaces
+            \item Problème avec systèmes hétérogènes
+            \item La taille du code fait varier les performances
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Mémoire virtuelle}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item L'appel côté client génère un défaut de page
+            \item On va chercher la page sur le serveur
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Critiques}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Efficaces pour de nombreux appels
+            \item On peut utiliser des pointeurs
+            \item Systèmes homogènes requis
+            \item La mémoire répartie doit rester cohérente.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Messages asynchrones}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Un gestionnaire client intercepte la demande (wrapper)
+            \item Le wrapper gère l'appel distant et renvoie le résultat
+            \item Le serveur reçoit les infos de l'appel et l'exécute
+            \item Le serveur renvoie la réponse au wrapper.
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Critiques}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item La taille ne compte pas
+            \item Hétérogénéité possible
+            \item Transactionel 
+            \item Pas de pointeurs
+            \item Échanges de types complexes compliqué
+            \item Peu efficace pour beaucoup d'appels
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{RPC légers}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item On se passe des wrappers
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Critiques}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Uniquement en local
+            \item Si threads, ok 
+            \item Si fork, Segment de mémoire partagée
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\def\sectitle{Problème des RPC}
+\section{\sectitle}
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Client bloqué - Mode asynchrone}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Mon client est bloqué lors des appels
+            \item Solution: créer un thread pour l'exécuter pendant que le
+                client continu son boulot.
+            \item Le client récupère l'information quand ça l'arrange.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Serveur bloqué - Parallélisation du serveur}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Le serveur peut-être en mode séquentiel
+                \begin{itemize}
+                    \item les requêtes s'exécutent une à la suite de l'autre
+                    \item si il y a blocage, tout le monde est ralentit
+                \end{itemize}
+            \item Si le serveur est en mode parallèle, il faut gérer la
+                concurrence!
+                \begin{itemize}
+                    \item Utilisation de sémaphores!
+                \end{itemize}
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Frame
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Passage de paramètres}
     \subsection{\subsectitle}
     \begin{block}{\subsectitle}
         \begin{itemize}
@@ -213,9 +286,6 @@
     \end{block}
 \end{frame}
 
-
-\def\sectitle{}
-\section{\sectitle}
 % Frame
 \begin{frame}{\sectitle}
     % Block
@@ -259,139 +329,6 @@
     \end{block}
 \end{frame}
 
-\def\sectitle{Stratégie d'exécution}
-\section{\sectitle}
-% Frame
-\begin{frame}{\sectitle}
-    % Block
-    \def\subsectitle{Migration / Rapatriement}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item On amène le code sur la machine locale
-        \end{itemize}
-    \end{block}
-    % Block
-    \def\subsectitle{Critiques}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item Efficaces
-            \item Problème d'homogénéité
-            \item La taille du code fait varier les performances
-        \end{itemize}
-    \end{block}
-\end{frame}
-
-% Frame
-\begin{frame}{\sectitle}
-    % Block
-    \def\subsectitle{Mémoire virtuelle}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item L'appel côté client génère un défaut de page
-            \item On va chercher la page sur le serveur
-        \end{itemize}
-    \end{block}
-    % Block
-    \def\subsectitle{Critiques}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item Efficaces pour de nombreux appels
-            \item On peut utiliser des pointeurs
-            \item Systèmes homogènes requis
-            \item La mémoire répartie doit rester cohérente.
-        \end{itemize}
-    \end{block}
-\end{frame}
-
-% Frame
-\begin{frame}{\sectitle}
-    % Block
-    \def\subsectitle{Messages asynchrones}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item La requête client est interceptée par un wrapper
-            \item Le wrapper gère l'appel distant
-            \item Le serveur reçoit les infos de l'appel et l'exécute
-            \item Le serveur renvoie la réponse au wrapper.
-        \end{itemize}
-    \end{block}
-    % Block
-    \def\subsectitle{Critiques}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item Taille quelconque
-            \item Hétérogénéité possible
-            \item Transactionel 
-            \item Pas de pointeurs
-            \item Échanges de types complexes compliqué
-            \item Peu efficace pour beaucoup d'appels
-        \end{itemize}
-    \end{block}
-\end{frame}
-
-% Frame
-\begin{frame}{\sectitle}
-    % Block
-    \def\subsectitle{RPC léger}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item On se passe des wrappers
-        \end{itemize}
-    \end{block}
-    % Block
-    \def\subsectitle{Critiques}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item Uniquement en local
-            \item Si threads, ok 
-            \item Si fork, Segment de mémoire partagée
-        \end{itemize}
-    \end{block}
-\end{frame}
-
-
-\def\sectitle{Client bloqué}
-\section{\sectitle}
-% Frame
-\begin{frame}{\sectitle}
-    % Block
-    \def\subsectitle{Mode asynchrone}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item Mon client est bloqué lors des appels
-            \item Solution: créer un thread pour l'exécuter pendant que le
-                client continu son boulot.
-            \item Le client récupère l'information quand ça l'arrange.
-        \end{itemize}
-    \end{block}
-\end{frame}
-
-\def\sectitle{Serveur bloqué}
-\section{\sectitle}
-% Frame
-\begin{frame}{\sectitle}
-    % Block
-    \def\subsectitle{Parallélisation du serveru}
-    \subsection{\subsectitle}
-    \begin{block}{\subsectitle}
-        \begin{itemize}
-            \item Le serveur peut-être en mode séquentiel
-            \item Si le serveur est en mode parallèle, il faut gérer la
-                concurrence!
-        \end{itemize}
-    \end{block}
-\end{frame}
-
-
 \def\sectitle{Gestion des données}
 \section{\sectitle}
 % Frame
@@ -417,7 +354,6 @@
     \end{block}
 \end{frame}
 
-
 \def\sectitle{Information d'historique}
 \section{\sectitle}
 % Frame
@@ -438,6 +374,76 @@
         \begin{itemize}
             \item Nécessite des informations historiques
             \item Usage d'un descriptif pour chaque relation client-serveur
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\def\sectitle{Implémentation}
+\section{\sectitle}
+% Frame
+\begin{frame}[containsverbatim]{\sectitle}
+    % Block
+    \def\subsectitle{Langage RPC - définition du protocole}
+    \subsection{\subsectitle}
+    \begin{exampleblock}{\subsectitle}
+        \begin{verbatim}
+  1 enum result_t {SUCESS, FAILURE};
+  2 
+  3 struct etudiant {
+  4     string name<>;
+  5     int age;
+  6 };
+  7 
+  8 program ETUDDB {
+  9     version ETUDDB_V1 {
+ 10         result_t ADD_ETUD(etudiant) = 1;
+ 11         result_t PRINT() = 2;
+ 12     } = 1;
+ 13 } = 0x2fffffff;
+        \end{verbatim}
+    \end{exampleblock}
+\end{frame}
+
+% Frame
+\begin{frame}[containsverbatim]{\sectitle}
+    % Block
+    \def\subsectitle{External Data Representation (XDR)}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Un fichier \verb+nom_xdr.c+ contenant les types définis
+            \item Ne pas modifier, inclure le \verb+.o+
+            \item RFC 1831
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Server Stub}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Contient la gestion des appels client et la liaison avec le
+                service
+            \item Appel des fonctions non implémentées
+            \item Ne pas modifier, inclure le \verb+.o+
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Client Stub}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Contient les appels aux fonctions définies précédemment
+            \item Elle appelles les fonction serveur
+            \item Ne pas modifier, inclure le \verb+.o+
+        \end{itemize}
+    \end{block}
+    % Block
+    \def\subsectitle{Header}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Définis les fonctions
+            \item inclure le \verb+.h+
         \end{itemize}
     \end{block}
 \end{frame}
