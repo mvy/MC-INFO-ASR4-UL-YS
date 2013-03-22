@@ -66,6 +66,10 @@
     \end{block}
 \end{frame}
 
+\begin{frame}{\sectitle}
+    \includegraphics[width=\textwidth]{images/RPC_overview.png}
+\end{frame}
+
 \def\sectitle{Outils connus}
 \section{\sectitle}
 % Frame
@@ -102,6 +106,23 @@
             \item Sun  J2EE EJB (Entreprise Java Beans)
             \item Corba Component Model
             \item WS-SOAP (WebServices Simple Object Access Protocol)
+            \item Implémentations souvent incompatibles
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{\sectitle}
+    % Block
+    \def\subsectitle{Séquence}
+    \subsection{\subsectitle}
+    \begin{block}{\subsectitle}
+        \begin{itemize}
+            \item Le client appelle la souche (stub) appel local
+            \item La souche formatte les paramètres dans un message
+            \item Le système envoi le message
+            \item Le système serveur reçoit le message
+            \item La souche serveur récupère le message
+            \item Le serveur appelle la procédure choisie.
         \end{itemize}
     \end{block}
 \end{frame}
@@ -427,6 +448,12 @@
             \item Ne pas modifier, inclure le \verb+.o+
         \end{itemize}
     \end{block}
+\end{frame}
+
+\def\sectitle{}
+\subsection{\sectitle}
+%%Frame
+\begin{frame}[containsverbatim]{\sectitle}
     % Block
     \def\subsectitle{Client Stub}
     \subsection{\subsectitle}
